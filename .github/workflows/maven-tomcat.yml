@@ -27,10 +27,10 @@ jobs:
 
     - name: Deploy to Tomcat
       env:
-        TOMCAT_URL: http://44.201.149.154:8081
+        TOMCAT_URL: http://44.203.153.191:8081
         TOMCAT_USER: ${{ secrets.TOMCAT_USER }}
         TOMCAT_PASS: ${{ secrets.TOMCAT_PASS }}
       run: |
         WAR_FILE=$(find target -name "*.war" | head -n 1)
-        echo "Deploying $WAR_FILE to $TOMCAT_URL"
+        echo "Deploying $WAR_FILE to http://44.203.153.191:8081"
         curl -u "$TOMCAT_USER:$TOMCAT_PASS" --upload-file "$WAR_FILE" "$TOMCAT_URL/manager/text/deploy?path=/test&update=true"
