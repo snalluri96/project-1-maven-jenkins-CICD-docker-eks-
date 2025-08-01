@@ -25,6 +25,13 @@ jobs:
     - name: Package WAR
       run: mvn package
 
+    - name: List build output
+      run: |
+      echo "Current directory: $(pwd)"
+      ls -lah
+      echo "Contents of target/:"
+      ls -lah target || echo "target/ does not exist"
+
     - name: Deploy to Tomcat
       env:
         TOMCAT_URL: http://44.203.153.191:8081
