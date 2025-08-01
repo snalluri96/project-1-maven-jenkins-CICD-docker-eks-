@@ -29,4 +29,19 @@ jobs:
       run: |
         echo "Current directory: $(pwd)"
         ls -lah
-        echo "Contents o
+        echo "Contents of webapp/target/:"
+        ls -lah webapp/target || echo "webapp/target does not exist"
+
+    - name: Deploy to Tomcat
+      env:
+        TOMCAT_URL: http://44.203.153.191:8081
+        TOMCAT_USER: ${{ secrets.TOMCAT_USER }}
+        TOMCAT_PASS: ${{ secrets.TOMCAT_PASS }}
+      run: |
+        WAR_FILE=$(find webapp/target -name "*.war" | head -n 1)
+        if [ -z "$WAR_FILE" ]; then
+          echo "❌ WAR file not found. Check if 'mvn package' created it."
+          exit 1
+        fi
+        echo "🚀 Deploying $WAR_FILE to $TOMCAT_URL"
+        curl -u "$TOMCAT_USER:$TOMCAT_PASS" --upload-file "$WAR_FILE" "$TOMCAT_URL/manager/text/deploy?path=/test&update=true"
