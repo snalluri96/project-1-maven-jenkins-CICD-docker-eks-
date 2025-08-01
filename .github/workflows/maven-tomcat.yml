@@ -23,7 +23,7 @@ jobs:
       run: mvn clean
 
     - name: Package WAR
-      run: mvn package
+      run: mvn install
 
     - name: Deploy to Tomcat
       env:
